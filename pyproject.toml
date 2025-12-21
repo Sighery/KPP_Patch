@@ -1,0 +1,12 @@
+[project]
+name = "kpp_patch"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "hbctool",
+]
+
+[tool.uv.sources]
+hbctool = { git = "https://github.com/bongtrop/hbctool", rev = "add-hbc-83-89-and-improve-contribution" }

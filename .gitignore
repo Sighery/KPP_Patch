@@ -1,0 +1,6 @@
+*.bin
+extracted
+*.json
+*.hasm
+*.hbc
+*.patched
