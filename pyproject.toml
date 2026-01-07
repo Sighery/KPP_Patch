@@ -5,7 +5,7 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "hbctool",
+    "hbctool @ git+https://github.com/bongtrop/hbctool.git@add-hbc-83-89-and-improve-contribution",
 ]
 
 [tool.uv.sources]
