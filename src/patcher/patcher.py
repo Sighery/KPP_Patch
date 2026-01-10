@@ -22,12 +22,8 @@ class KindleHBC:
         f = open(path, "rb")
         self.hbcs = hbctool.hbc.load(f)
         logger.info(f"HBC Version {self.hbcs.getVersion()}")
-        logger.info(self.hbcs.getVersion())
-        self.hbcs.setFunction
 
-        pass
-
-    def find_func_by_name(self, name, disasm=True):
+    def find_func_by_name(self, name: str, disasm: bool = True) -> tuple:
         for x in range(self.hbcs.getFunctionCount()):
             fnName = self.hbcs.getString(
                 self.hbcs.getObj()["functionHeaders"][x]["functionName"]
@@ -36,17 +32,16 @@ class KindleHBC:
                 return (x, self.hbcs.getFunction(x, disasm))
         return (-1, None)
 
-    def replace_func(self, fid, func, new_func):
+    def replace_func(self, fid: int, func: Any, new_func: Any) -> None:
         fun_new = list(func)
         fun_new[4] = new_func
         self.hbcs.setFunction(fid, fun_new)
-        pass
 
-    def check_func_patch(self, fid, patch) -> bool:
+    def check_func_patch(self, fid: int, patch: Any) -> bool:
         fun = self.hbcs.getFunction(fid, disasm=True)
         return fun[4] == patch
 
-    def check_string_patch(self, sid, patch) -> bool:
+    def check_string_patch(self, sid: int, patch: Any) -> bool:
         string, _ = self.hbcs.getString(sid)
         return string.strip("\0") == patch
 
@@ -66,7 +61,9 @@ class KindleHBC:
         logger.info("Unknown error!")
         return False
 
-    def find_strings_regex(self, regex: str, min_len=0) -> list[tuple[int, int, str]]:
+    def find_strings_regex(
+        self, regex: str, min_len: int = 0
+    ) -> list[tuple[int, int, str]]:
         strings = []
         compiled = re.compile(regex)
         for sid in range(self.hbcs.getStringCount()):
@@ -102,7 +99,7 @@ class KindleHBC:
             self.hbcs.setString(sid, patched + "\0" * (l - len(patched)))
         return sids
 
-    def replace_string_ref_in_func(self, fid, og_sid, patch_sid) -> bool:
+    def replace_string_ref_in_func(self, fid: int, og_sid: int, patch_sid: int) -> bool:
         fun = self.hbcs.getFunction(fid)
         insts = fun[4]
         for x in insts:
@@ -132,7 +129,8 @@ class KindleHBC:
     def patch_string(self, orig: str, patched: str) -> bool:
         if len(orig) != len(patched):
             raise Exception(
-                f"Length of orig {orig}:{len(orig)} and patch {patched}:{len(patched)} must be the same!"
+                f"Length of orig {orig}:{len(orig)} and "
+                f"patch {patched}:{len(patched)} must be the same!"
             )
         sid = self.replace_string(orig, patched)
         if sid < 0:
@@ -200,20 +198,3 @@ def patch_collection_not_synced_popup(khbc: KindleHBC) -> None:
 def patch_homepage(khbc: KindleHBC) -> None:
     logger.info("Patching homepage content!")
     khbc.patch_string_regex("Template(\\d*)Card", "Template0Card")
-    # for x in replace_me:
-
-    # khbc.patch_string(x, patch + '\0' * (len(x) - len(patch)))
-
-
-# def main():
-#     logger.info("KPP_Patch running!")
-#     khbc = KindleHBC("./KPPMainApp.js.hbc")
-#     patch_registration_detection(khbc)
-#     patch_homepage(khbc)
-#     patch_store_button(khbc)
-#     # patch_home_to_library(khbc)
-#     khbc.dump("./KPPMainApp.js.hbc.patched")
-
-
-# if __name__ == "__main__":
-#     main()
