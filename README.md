@@ -107,10 +107,14 @@ options:
   --patch_collection_not_synced_popup
                         Patch out the not synced popup when adding sideloaded content to collections. When adding sideloaded content to collections, it will show a
                         popup telling you that the content is not synced. This patch removes that popup. See docs/patch_collection_not_synced_popup.jpg
-  --patch_homepage      Not yet documented
+  --patch_homepage      Patch out homepage "Discover Books" carousels. Kindles have ads for unrelated Amazon store books that show up in the home page. This patch
+                        will remove those ad rows. NOTE: Might not work or might delete too much in certain devices. Confirmed not working on a PW5 with 5.16.2.1.1
+                        See docs/patch_homepage.jpg
   --patch_registration_detection
-                        Not yet documented
-  --patch_store_button  Not yet documented
+                        Patch out the Clould Not Available popup. This popup is very common on unregistered devices. Newer devices/firmwares require a registration
+                        to use, and while jailbreaks allow us to bypass this, this popup will always show when navigating to the home page. See
+                        docs/patch_registration_detection.jpg
+  --patch_store_button  Patch out the store button. See docs/patch_store_button.jpg
 ```
 <!--CH1-->
 
@@ -133,17 +137,33 @@ you that the content is not synced. This patch removes that popup.
 
 ### patch_homepage
 
-Not yet documented
+Patch out homepage "Discover Books" carousels.
+
+Kindles have ads for unrelated Amazon store books that show up in the home
+page. This patch will remove those ad rows.
+
+NOTE: Might not work or might delete too much in certain devices. Confirmed
+not working on a PW5 with 5.16.2.1.1
+
+![](docs/patch_homepage.jpg)
 
 
 ### patch_registration_detection
 
-Not yet documented
+Patch out the Clould Not Available popup.
+
+This popup is very common on unregistered devices. Newer devices/firmwares
+require a registration to use, and while jailbreaks allow us to bypass this,
+this popup will always show when navigating to the home page.
+
+![](docs/patch_registration_detection.jpg)
 
 
 ### patch_store_button
 
-Not yet documented
+Patch out the store button.
+
+![](docs/patch_store_button.jpg)
 
 
 <!--CP1-->
