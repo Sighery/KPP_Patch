@@ -3,9 +3,7 @@ import curses
 from src.patcher.utils import PatchFunction, current_patches, patch_doc
 
 
-def _menu(
-    stdscr: curses.window, options: list[str], options_extra: list[str]
-) -> dict[str, bool]:
+def _menu(stdscr: curses.window, options: list[str]) -> dict[str, bool]:
     if not options:
         return {}
 
@@ -19,17 +17,11 @@ def _menu(
         stdscr.addstr("Select options (Space to toggle, Enter to confirm)\n\n")
 
         for i, opt in enumerate(options):
-            extra = ""
-            try:
-                extra = f": {options_extra[i]}"
-            except IndexError:
-                pass
-
             prefix = "[x] " if selected[i] else "[ ] "
             if i == index:
-                stdscr.addstr(prefix + opt + extra + "\n", curses.A_REVERSE)
+                stdscr.addstr(prefix + opt + "\n", curses.A_REVERSE)
             else:
-                stdscr.addstr(prefix + opt + extra + "\n")
+                stdscr.addstr(prefix + opt + "\n")
 
         key = stdscr.getch()
 
@@ -50,7 +42,6 @@ def select_patches() -> dict[str, PatchFunction]:
     result = curses.wrapper(
         _menu,
         options=list(patches.keys()),
-        options_extra=list(patch_doc(patch) for patch in patches.values()),
     )
 
     return {k: v for k, v in patches.items() if result.get(k, False)}
