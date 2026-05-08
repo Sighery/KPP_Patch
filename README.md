@@ -52,7 +52,7 @@ $ scp root@192.168.15.244:/app/KPPMainApp/js/KPPMainApp.js.hbc .
 # will have a .patched suffix
 $ python main.py KPPMainApp.js.hbc
 
-$ file KPPMainApp.js.hbc.patched 
+$ file KPPMainApp.js.hbc.patched
 dump/KPPMainApp.js.hbc.patched: Hermes JavaScript bytecode, version 84
 
 # To copy it back into the Kindle, you'll need to temporarly enable write
@@ -65,8 +65,16 @@ $ scp KPPMainApp.js.hbc.patched root@192.168.15.244:/app/KPPMainApp/js/KPPMainAp
 # Remember to re-enable the read-only filesystem again
 $ ssh root@192.168.15.244
 [root@kindle root]$ mntroot ro
-[root@kindle root]$ exit
+
+# Restart kppmainapp job to try the patches
+[root@kindle root]$ restart kppmainapp
 ```
+
+If you get a white screen, or the patches don't seem to work as expected, you
+should restore the unpatched file. To do so, follow the same steps as before,
+just copy over the original unpatched file. When reporting issues with a
+patch, be sure to mention your exact Kindle device, your firmware version, as
+well as what patches did you apply, what you see, and what you expected to happen.
 
 ### Selecting patches
 
