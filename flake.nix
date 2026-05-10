@@ -19,8 +19,6 @@
             python313Packages.pip
             python313Packages.virtualenv
             python313Packages.ipython
-            python313Packages.pytest
-            python313Packages.black
             coreutils
             bashInteractive
             xxd
