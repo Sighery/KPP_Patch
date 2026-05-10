@@ -1,2 +1,2 @@
-from . import patcher, utils
+from . import common, patcher, patches
 from .patcher import KindleHBC

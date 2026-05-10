@@ -44,12 +44,12 @@ def matches_signature(fn, proto: Protocol) -> bool:
 
 @functools.cache
 def current_patches() -> dict[str, PatchFunction]:
-    from . import patcher
+    from src.patcher import patches
 
     return {
         name: obj
-        for name, obj in inspect.getmembers(patcher, inspect.isfunction)
-        if matches_signature(obj, PatchFunction) and name.startswith("patch_")
+        for name, obj in inspect.getmembers_static(patches, inspect.isfunction)
+        if name.startswith("patch_") and matches_signature(obj, PatchFunction)
     }
 
 
