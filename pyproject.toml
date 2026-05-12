@@ -13,7 +13,8 @@ dev = [
     "pytest",
     "black",
     "isort",
+    "mypy",
 ]
 
-[tool.uv.sources]
-hbctool = { git = "https://github.com/bongtrop/hbctool", rev = "add-hbc-83-89-and-improve-contribution" }
+[tool.mypy]
+files = "src/"
