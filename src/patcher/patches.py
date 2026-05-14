@@ -1,6 +1,9 @@
 import logging
 
+from src.utils.collections import Pattern, replace_sequences
+
 from .common import *
+from .errors import PatchError
 from .patcher import KindleHBC
 
 logger = logging.getLogger(__name__)
@@ -71,10 +74,55 @@ def patch_homepage(khbc: KindleHBC) -> None:
     Kindles have ads for unrelated Amazon store books that show up in the home
     page. This patch will remove those ad rows.
 
-    NOTE: Might not work or might delete too much in certain devices. Confirmed
-    not working on a PW5 with 5.16.2.1.1
+    NOTE: Likely to work on newer devices and firmwares >= 5.16.3. Try
+    `patch_homepage_sf` if this doesn't work.
 
     See docs/patch_homepage.jpg
     """
     logger.info("Patching homepage content!")
     khbc.patch_string_regex("Template(\\d*)Card", "Template0Card")
+
+
+def patch_homepage_sf_wip(khbc: KindleHBC) -> None:
+    """
+    Patch out homepage ad carousels.
+
+    FOR USE IN OLDER FIRMWARES: TRY IF `patch_homepage` FAILS.
+
+    Kindles have ads for unrelated Amazon store books that show up in the home
+    page. This patch will remove those ad rows.
+
+    NOTE: Confirmed working on a PW5 with 5.16.2.1.1.
+
+    See docs/patch_homepage_sf.jpg
+    """
+    logger.info("Patching homepage content for older Soft Float firmwares!")
+
+    # TODO: FIX. Need a find function by Levenshtein distance method
+
+    base_err = "Failed to apply patch_homepage_sf!"
+
+    # Card 49 (Discover Books Shelf) render function
+    result = khbc.patch_func_by_id(fid=6871, patch=ALWAYS_FALSE)
+    if not result:
+        raise PatchError(f"{base_err} Patching Card49 render function failed!")
+
+    # Card 18 (Multiple "with Prime" shelves) render function
+    result = khbc.patch_func_by_id(fid=6799, patch=ALWAYS_FALSE)
+    if not result:
+        raise PatchError(f"{base_err} Patching Card18 render function failed!")
+
+    # "New Releases In Kindle Store" & "Best Sellers included with Prime" shelves
+    result = khbc.patch_func("Template5", ALWAYS_FALSE)
+    if not result:
+        raise PatchError(f"{base_err} Patching Template5 function failed!")
+
+    # "Easily Add Titles To Your Kindle Library" shelf
+    result = khbc.patch_func("Template2", ALWAYS_FALSE)
+    if not result:
+        raise PatchError(f"{base_err} Patching Template2 function failed!")
+
+    # "Try Unlimited Reading & Listening" shelf
+    result = khbc.patch_func("Template13", ALWAYS_FALSE)
+    if not result:
+        raise PatchError(f"{base_err} Patching Template13 function failed!")
