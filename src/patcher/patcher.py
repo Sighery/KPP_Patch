@@ -1,6 +1,7 @@
 import logging
 import re
 import tempfile
+from collections.abc import Generator
 from typing import Any, cast
 
 from hbctool import hbc
@@ -17,18 +18,24 @@ class KindleHBC:
         self.hbcs = cast(hbc.HBCBase, hbc.load(f))
         logger.info(f"HBC Version {self.hbcs.getVersion()}")
 
+    def find_all_funcs_by_name(
+        self, name: str, disasm: bool = True
+    ) -> Generator[tuple[int, hbc.FuncUnion]]:
+        for fid in range(self.hbcs.getFunctionCount()):
+            fn_name = self.hbcs.getString(
+                sid=self.hbcs.getObj()["functionHeaders"][fid]["functionName"]
+            ).val
+
+            if name == fn_name:
+                yield fid, self.hbcs.getFunction(fid=fid, disasm=disasm)
+
     def find_func_by_name(
         self,
         name: str,
         disasm: bool = True,
     ) -> tuple[int, hbc.FuncUnion | None]:
-        for x in range(self.hbcs.getFunctionCount()):
-            fnName = self.hbcs.getString(
-                self.hbcs.getObj()["functionHeaders"][x]["functionName"]
-            )[0]
-            if name in fnName:
-                return (x, self.hbcs.getFunction(x, disasm))
-        return (-1, None)
+        gen = self.find_all_funcs_by_name(name=name, disasm=disasm)
+        return next(gen, (-1, None))
 
     def replace_func(
         self,
@@ -49,9 +56,9 @@ class KindleHBC:
         string, _ = self.hbcs.getString(sid)
         return string.strip("\0") == patch
 
-    def patch_func(self, function_name: str, patch: Any) -> bool:
-        logger.info(f"Patching {function_name}.")
-        fid, fun = self.find_func_by_name(function_name)
+    def patch_func(self, name: str, patch: Any) -> bool:
+        logger.info(f"Patching {name}.")
+        fid, fun = self.find_func_by_name(name)
         return self._patch_func_by_id(fid, fun, patch)
 
     def _patch_func_by_id(self, fid: int, fun: Any, patch: Any) -> bool:
@@ -179,3 +186,20 @@ class KindleHBC:
     def dump(self, path: str) -> None:
         with open(path, "wb+") as f:
             hbc.dump(self.hbcs, f)
+
+    def are_sids_used_in_func(
+        self, sids: list[int], func: hbc.FunctionDisassembled
+    ) -> bool:
+        seen = {sid: False for sid in sids}
+        for inst in func.instructions:
+            for argument in inst.arguments:
+                if not argument.is_string:
+                    continue
+
+                sid = argument.arg_value
+                if sid not in seen:
+                    continue
+
+                seen[sid] = True
+
+        return all(seen.values())

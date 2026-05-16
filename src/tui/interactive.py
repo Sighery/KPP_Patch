@@ -1,6 +1,6 @@
 import curses
 
-from .hints import PatchFunction, stable_patches, patch_doc
+from .hints import PatchFunction, patch_doc, stable_patches
 
 
 def _menu(stdscr: curses.window, options: list[str]) -> dict[str, bool]:

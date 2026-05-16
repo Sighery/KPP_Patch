@@ -1,6 +1,6 @@
 import logging
 
-from src.utils.collections import Pattern, replace_sequences
+from hbctool import hbc
 
 from .common import *
 from .errors import PatchError
@@ -83,7 +83,7 @@ def patch_homepage(khbc: KindleHBC) -> None:
     khbc.patch_string_regex("Template(\\d*)Card", "Template0Card")
 
 
-def patch_homepage_sf_wip(khbc: KindleHBC) -> None:
+def patch_homepage_sf(khbc: KindleHBC) -> None:
     """
     Patch out homepage ad carousels.
 
@@ -98,17 +98,60 @@ def patch_homepage_sf_wip(khbc: KindleHBC) -> None:
     """
     logger.info("Patching homepage content for older Soft Float firmwares!")
 
-    # TODO: FIX. Need a find function by Levenshtein distance method
-
     base_err = "Failed to apply patch_homepage_sf!"
 
+    # TODO: I want a find function by Levenshtein distance method
+    card49_render_strings = ["Template49Card", "Template49Container", "Template49Title"]
+    card49_sids: list[int] = []
+    card18_render_strings = [
+        "Template18Card",
+        "Template18Container",
+        "Template18Title",
+        "Template18Content",
+    ]
+    card18_sids: list[int] = []
+
+    for string in card49_render_strings:
+        sid = khbc.find_string(string)
+        if sid == -1:
+            raise PatchError(f"{base_err} Couldn't find string {string}!")
+        card49_sids.append(sid)
+
+    for string in card18_render_strings:
+        sid = khbc.find_string(string)
+        if sid == -1:
+            raise PatchError(f"{base_err} Couldn't find string {string}!")
+        card18_sids.append(sid)
+
+    card49_render_fid: int | None = None
+    card18_render_fid: int | None = None
+
+    all_render_functions = khbc.find_all_funcs_by_name(name="render", disasm=True)
+    for fid, func in all_render_functions:
+        if khbc.are_sids_used_in_func(sids=card49_sids, func=func):
+            card49_render_fid = fid
+        elif khbc.are_sids_used_in_func(sids=card18_sids, func=func):
+            card18_render_fid = fid
+
+    if not card49_render_fid:
+        raise PatchError(f"{base_err} Failed to find Card49 render function!")
+
+    if not card18_render_fid:
+        raise PatchError(f"{base_err} Failed to find Card18 render function!")
+
+    logger.info(
+        "Card49 render fid %d. Card18 render fid: %d",
+        card49_render_fid,
+        card18_render_fid,
+    )
+
     # Card 49 (Discover Books Shelf) render function
-    result = khbc.patch_func_by_id(fid=6871, patch=ALWAYS_FALSE)
+    result = khbc.patch_func_by_id(fid=card49_render_fid, patch=ALWAYS_FALSE)
     if not result:
         raise PatchError(f"{base_err} Patching Card49 render function failed!")
 
-    # Card 18 (Multiple "with Prime" shelves) render function
-    result = khbc.patch_func_by_id(fid=6799, patch=ALWAYS_FALSE)
+    # Card 18 (Multiple "with/in Prime" shelves) render function
+    result = khbc.patch_func_by_id(fid=card18_render_fid, patch=ALWAYS_FALSE)
     if not result:
         raise PatchError(f"{base_err} Patching Card18 render function failed!")
 
