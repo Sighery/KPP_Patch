@@ -16,7 +16,7 @@ def filetype(value: str) -> Path:
 
 def form_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="kpp_patcher",
+        prog="kpp_patch",
         description="Patch different behaviours of the Kindle KPP app",
     )
 

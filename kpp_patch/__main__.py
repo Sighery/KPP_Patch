@@ -1,12 +1,12 @@
 import logging
 
-from src.patcher import KindleHBC
-from src.tui.cli import parse_cli
+from kpp_patch.patcher import KindleHBC
+from kpp_patch.tui.cli import parse_cli
 
 try:
     import curses as _curses
 
-    from src.tui.interactive import select_patches
+    from kpp_patch.tui.interactive import select_patches
 except ImportError:
     _HAS_CURSES = False
 else:

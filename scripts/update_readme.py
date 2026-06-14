@@ -9,8 +9,8 @@ sys.path.append(str(ROOT))
 
 import argparse
 
-from src.tui.cli import form_parser
-from src.tui.hints import stable_patches, patch_doc
+from kpp_patch.tui.cli import form_parser
+from kpp_patch.tui.hints import stable_patches, patch_doc
 
 
 def update_help():

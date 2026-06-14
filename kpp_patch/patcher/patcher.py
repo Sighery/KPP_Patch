@@ -6,7 +6,7 @@ from typing import Any, cast
 
 from hbctool import hbc
 
-from src.utils.collections import Pattern, replace_sequences
+from kpp_patch.utils.collections import Pattern, replace_sequences
 
 logger = logging.getLogger(__name__)
 

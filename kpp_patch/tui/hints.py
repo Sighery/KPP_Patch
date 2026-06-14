@@ -5,7 +5,7 @@ from types import ModuleType
 from typing import TYPE_CHECKING, Any, Callable, Protocol, get_type_hints
 
 if TYPE_CHECKING:
-    from src.patcher.patcher import KindleHBC
+    from kpp_patch.patcher.patcher import KindleHBC
 
 
 class PatchFunction(Protocol):
@@ -48,7 +48,7 @@ def matches_signature(fn: Callable[..., Any], proto: Any) -> bool:
 
 @functools.cache
 def all_patches() -> dict[str, PatchFunction]:
-    from src.patcher import patches
+    from kpp_patch.patcher import patches
 
     return {
         name: obj

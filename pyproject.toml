@@ -1,6 +1,6 @@
 [project]
 name = "kpp_patch"
-version = "0.1.0"
+version = "0.2.0"
 description = "Patching the Kindle's React Native homepage app to remove annoyances"
 readme = "README.md"
 license = "MIT"
@@ -18,6 +18,14 @@ dependencies = [
     "hbctool @ git+https://github.com/Sighery/hbctool.git",
 ]
 
+[project.urls]
+Homepage = "https://github.com/KindleModding/KPP_Patch"
+Documentation = "https://github.com/KindleModding/KPP_Patch"
+Repository = "https://github.com/KindleModding/KPP_Patch"
+
+[project.scripts]
+kpp_patch = "kpp_patch.__main__:main"
+
 [project.optional-dependencies]
 dev = [
     "pytest",
@@ -26,5 +34,13 @@ dev = [
     "mypy",
 ]
 
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["kpp_patch*"]
+
 [tool.mypy]
-files = "src/"
+files = "kpp_patch/"

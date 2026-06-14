@@ -1,6 +1,6 @@
 import pytest
 
-from src.utils.collections import remove_sequences
+from kpp_patch.utils.collections import remove_sequences
 
 
 def test_remove_sequences():

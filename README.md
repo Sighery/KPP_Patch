@@ -41,8 +41,8 @@ comfortable with to manage the dependencies. Here I'll just assume basic
 `pip` usage. For copying the file from/to the Kindle I'll assume SSH:
 
 ```bash
-# Install project dependencies
-$ pip install .
+# Install project
+$ pip install git+https://github.com/KindleModding/KPP_Patch
 
 # Copy the file from your Kindle, IP will likely vary
 $ scp root@192.168.15.244:/app/KPPMainApp/js/KPPMainApp.js.hbc .
@@ -50,7 +50,7 @@ $ scp root@192.168.15.244:/app/KPPMainApp/js/KPPMainApp.js.hbc .
 # Patch the app with selected patches
 # The original file won't be modified, instead the patched file
 # will have a .patched suffix
-$ python main.py KPPMainApp.js.hbc
+$ kpp_patch KPPMainApp.js.hbc
 
 $ file KPPMainApp.js.hbc.patched
 dump/KPPMainApp.js.hbc.patched: Hermes JavaScript bytecode, version 84
@@ -137,11 +137,11 @@ patches.
 
 <!--CH0-->
 ```
-usage: kpp_patcher [-h] [--interactive | --no-interactive]
-                   [--patch_collection_not_synced_popup] [--patch_homepage]
-                   [--patch_homepage_sf] [--patch_registration_detection]
-                   [--patch_store_button]
-                   filename
+usage: kpp_patch [-h] [--interactive | --no-interactive]
+                 [--patch_collection_not_synced_popup] [--patch_homepage]
+                 [--patch_homepage_sf] [--patch_registration_detection]
+                 [--patch_store_button]
+                 filename
 
 Patch different behaviours of the Kindle KPP app
 
