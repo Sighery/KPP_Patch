@@ -7,6 +7,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+import argparse
 
 from src.tui.cli import form_parser
 from src.tui.hints import stable_patches, patch_doc
@@ -17,6 +18,7 @@ def update_help():
     TAG_END = "<!--CH1-->\n"
 
     parser = form_parser()
+    parser.formatter_class = lambda prog: argparse.HelpFormatter(prog, width=80)
 
     processed = []
 

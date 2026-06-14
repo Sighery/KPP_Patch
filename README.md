@@ -137,7 +137,9 @@ patches.
 
 <!--CH0-->
 ```
-usage: kpp_patcher [-h] [--interactive | --no-interactive] [--patch_collection_not_synced_popup] [--patch_homepage] [--patch_homepage_sf] [--patch_registration_detection]
+usage: kpp_patcher [-h] [--interactive | --no-interactive]
+                   [--patch_collection_not_synced_popup] [--patch_homepage]
+                   [--patch_homepage_sf] [--patch_registration_detection]
                    [--patch_store_button]
                    filename
 
@@ -149,18 +151,36 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   --interactive, --no-interactive
-                        Use interactive mode to select patches. If this option is set, cli choices are ignored. Disable with --no-interactive.
+                        Use interactive mode to select patches. If this option
+                        is set, cli choices are ignored. Disable with --no-
+                        interactive.
   --patch_collection_not_synced_popup
-                        Patch out the not synced popup when adding sideloaded content to collections. When adding sideloaded content to collections, it will show a popup telling you that
-                        the content is not synced. This patch removes that popup. See docs/patch_collection_not_synced_popup.jpg
-  --patch_homepage      Patch out homepage "Discover Books" carousels. Kindles have ads for unrelated Amazon store books that show up in the home page. This patch will remove those ad
-                        rows. NOTE: Likely to work on newer devices and firmwares >= 5.16.3. Try `patch_homepage_sf` if this doesn't work. See docs/patch_homepage.jpg
-  --patch_homepage_sf   Patch out homepage ad carousels. FOR USE IN OLDER FIRMWARES: TRY IF `patch_homepage` FAILS. Kindles have ads for unrelated Amazon store books that show up in the
-                        home page. This patch will remove those ad rows. NOTE: Confirmed working on a PW5 with 5.16.2.1.1. See docs/patch_homepage_sf.jpg
+                        Patch out the not synced popup when adding sideloaded
+                        content to collections. When adding sideloaded content
+                        to collections, it will show a popup telling you that
+                        the content is not synced. This patch removes that
+                        popup. See docs/patch_collection_not_synced_popup.jpg
+  --patch_homepage      Patch out homepage "Discover Books" carousels. Kindles
+                        have ads for unrelated Amazon store books that show up
+                        in the home page. This patch will remove those ad rows.
+                        NOTE: Likely to work on newer devices and firmwares >=
+                        5.16.3. Try `patch_homepage_sf` if this doesn't work.
+                        See docs/patch_homepage.jpg
+  --patch_homepage_sf   Patch out homepage ad carousels. FOR USE IN OLDER
+                        FIRMWARES: TRY IF `patch_homepage` FAILS. Kindles have
+                        ads for unrelated Amazon store books that show up in the
+                        home page. This patch will remove those ad rows. NOTE:
+                        Confirmed working on a PW5 with 5.16.2.1.1. See
+                        docs/patch_homepage_sf.jpg
   --patch_registration_detection
-                        Patch out the Clould Not Available popup. This popup is very common on unregistered devices. Newer devices/firmwares require a registration to use, and while
-                        jailbreaks allow us to bypass this, this popup will always show when navigating to the home page. See docs/patch_registration_detection.jpg
-  --patch_store_button  Patch out the store button. See docs/patch_store_button.jpg
+                        Patch out the Clould Not Available popup. This popup is
+                        very common on unregistered devices. Newer
+                        devices/firmwares require a registration to use, and
+                        while jailbreaks allow us to bypass this, this popup
+                        will always show when navigating to the home page. See
+                        docs/patch_registration_detection.jpg
+  --patch_store_button  Patch out the store button. See
+                        docs/patch_store_button.jpg
 ```
 <!--CH1-->
 
