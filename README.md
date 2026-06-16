@@ -25,6 +25,11 @@ the file is not as expected, as sometimes different versions might break
 patches.
 
 
+## Contributing
+
+See [CONTRIBUTING.md][].
+
+
 ## Extracting the file
 
 The KPP app can be found in your Kindle under
@@ -251,3 +256,4 @@ Patch out the store button.
 
 [5.14.2 release]: https://blog.the-ebook-reader.com/2022/02/09/kindle-software-update-5-14-2-released/
 [Hermes engine]: https://reactnative.dev/docs/hermes
+[CONTRIBUTING.md]: ./CONTRIBUTING.md
